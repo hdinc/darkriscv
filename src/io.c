@@ -6,7 +6,7 @@ volatile struct DARKIO io;
 
 #else
 
-volatile struct DARKIO io = 
+volatile struct DARKIO io =
 {
     4, 100, 0, 0,   // ctrl = { board id, fMHz, fkHz }
     { 0, 0, 0 },    // uart = { stat, fifo, baud }
@@ -26,8 +26,8 @@ volatile int utimers = 0; // number of microseconds
 
 char *board_name(int id)
 {
-    return id==0  ? "simulation only" : 
-           id==1  ? "avnet microboard lx9": 
+    return id==0  ? "simulation only" :
+           id==1  ? "avnet microboard lx9":
            id==2  ? "xilinx ac701 a200" :
            id==3  ? "qmtech sdram lx16" :
            id==4  ? "qmtech spartan7 s15" :

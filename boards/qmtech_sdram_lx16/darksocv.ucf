@@ -7,7 +7,7 @@ NET LED[3]          LOC = B12;
 NET LED[2]          LOC = C11;
 NET LED[1]          LOC = T9; # board led
 NET LED[0]          LOC = R9; # board led
-	
+
 # QMtech expansion board -> connector -> SDRAM/LX16 board
 
 NET UART_RXD        LOC = E16; # F22 -> J2-15 -> E15

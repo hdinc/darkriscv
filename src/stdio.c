@@ -17,9 +17,9 @@ int putchar(int c)
   if(c=='\n')
   {
     while(io.uart.stat&1); // uart busy, wait...
-    io.uart.fifo = '\r';  
+    io.uart.fifo = '\r';
   }
-  
+
   while(io.uart.stat&1); // uart busy, wait...
   return io.uart.fifo = c;
 }
@@ -36,14 +36,14 @@ char *gets(char *p,int s)
   while(--s)
   {
     c=getchar();
-    
+
     if(c=='\n'||c=='\r') break;
-#ifdef __RISCV__     
+#ifdef __RISCV__
     putchar(c);
 #endif
     if(c=='\b') // backspace!
     {
-        if(p!=ret) 
+        if(p!=ret)
         {
             *--p = 0;
             s++;
@@ -56,7 +56,7 @@ char *gets(char *p,int s)
   putchar('\n');
 #endif
   *p=0;
-  
+
   return p==ret ? NULL : ret;
 }
 
@@ -81,7 +81,7 @@ void putnum(unsigned i, int base)
     if(base==10)
     {
         int j = i;
-        
+
         if(j<0)
         {
             putchar('-');
@@ -93,13 +93,13 @@ void putnum(unsigned i, int base)
     {
         stack[ptr++] = ascii[(i%base)];
         i/=base;
-        
+
         if(base!=10)
         {
             stack[ptr++] = ascii[(i%base)];
             i/=base;
-        }        
-    } 
+        }
+    }
     while(i);
 
     while(ptr) putchar(stack[--ptr]);
@@ -132,7 +132,7 @@ int printf(char *fmt,...)
 int strncmp(char *s1,char *s2,int len)
 {
     while(--len && *s1 && *s2 && (*s1==*s2)) s1++, s2++;
-    
+
     return (*s1-*s2);
 }
 
@@ -144,7 +144,7 @@ int strcmp(char *s1, char *s2)
 int strlen(char *s1)
 {
     int len;
-    
+
     for(len=0;s1&&*s1++;len++);
 
     return len;
@@ -160,7 +160,7 @@ char *strtok(char *str,char *dptr)
          if(str) tmp=str;
     else if(nxt) tmp=nxt;
     else return NULL;
-    
+
     char *ret=tmp;
 
     while(*tmp)
@@ -191,9 +191,9 @@ char *memcpy(char *dptr,char *sptr,int len)
 char *memset(char *dptr, int c, int len)
 {
     char *ret = dptr;
-    
+
     while(len--) *dptr++ = c;
-    
+
     return ret;
 }
 
@@ -202,30 +202,30 @@ char *memset(char *dptr, int c, int len)
 int atoi(char *s1)
 {
     int ret,sig;
-    
-    for(sig=ret=0;s1&&*s1;s1++) 
+
+    for(sig=ret=0;s1&&*s1;s1++)
     {
-        if(*s1=='-') 
+        if(*s1=='-')
             sig=1;
-        else 
+        else
             ret = *s1-'0'+(ret<<3)+(ret<<1); // val = val*10+int(*s1)
     }
-    
+
     return sig ? -ret : ret;
 }
 
 int xtoi(char *s1)
 {
     int ret;
-    
-    for(ret=0;s1&&*s1;s1++) 
+
+    for(ret=0;s1&&*s1;s1++)
     {
         if(*s1<='9')
             ret = *s1-'0'+(ret<<4); // val = val*16+int(*s1)
         else
             ret = 10+(*s1&0x5f)-'A'+(ret<<4); // val = val*16+int(toupper(*s1))
     }
-    
+
     return ret;
 }
 
@@ -248,7 +248,7 @@ unsigned __umulsi3(unsigned x,unsigned y)
     unsigned acc;
 
     if(x<y) { unsigned z = x; x = y; y = z; }
-    
+
     for(acc=0;y;x<<=1,y>>=1) if (y & 1) acc += x;
 
     return acc;
@@ -257,12 +257,12 @@ unsigned __umulsi3(unsigned x,unsigned y)
 int __mulsi3(int x, int y)
 {
     unsigned acc,xs,ys;
-    
+
     if(x<0) { xs=1; x=-x; } else xs=0;
     if(y<0) { ys=1; y=-y; } else ys=0;
 
     acc = __umulsi3(x,y);
-    
+
     return xs^ys ? -acc : acc;
 }
 
@@ -317,7 +317,7 @@ int __modsi3(int x,int y)
 
 void usleep(int delay)
 {
-    if(get_mtvec()) 
+    if(get_mtvec())
     {
         while(delay--)
         {
@@ -326,7 +326,7 @@ void usleep(int delay)
     }
     else
     {
-        while(delay--) 
+        while(delay--)
         {
             for(io.irq=IRQ_TIMR;!io.irq;); // without interrupts
         }

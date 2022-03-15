@@ -12,7 +12,7 @@ struct DARKIO {
     unsigned char irq;      // 03
 
     struct DARKUART {
-        
+
         unsigned char  stat; // 04
         unsigned char  fifo; // 05
         unsigned short baud; // 06/07

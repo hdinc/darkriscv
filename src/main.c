@@ -35,7 +35,7 @@ int main(void)
           threads>1?"+MT":"",                 // MT  support
           mac(1000,16,16)==1256?"+MAC":"");   // MAC support
     }
-    
+
     threads = 0; // prepare for the next restart
 
 
@@ -43,9 +43,9 @@ int main(void)
     printf("timr0: frequency=%dHz (io.timer=%d)\n",(io.board_cm*1000000u+io.board_ck*10000u)/(io.timer+1),io.timer);
 
     set_mtvec(irq_handler);
-    
+
     unsigned mtvec = get_mtvec();
-    
+
     if(mtvec)
     {
         printf("mtvec: handler@%d, enabling interrupts...\n",mtvec);
@@ -56,7 +56,7 @@ int main(void)
         printf("mtvec: not found (polling only)\n");
 
     io.irq = IRQ_TIMR; // clear interrupts
-    
+
     printf("\n");
 
     printf("Welcome to DarkRISCV!\n");
@@ -69,11 +69,11 @@ int main(void)
 
         printf("> ");
         memset(buffer,0,sizeof(buffer));
-        
+
         if(mtvec==0)
         {
             while(1)
-            {            
+            {
                 if(io.irq&IRQ_TIMR)
                 {
                     if(!utimers--)
@@ -83,16 +83,16 @@ int main(void)
                     }
                     io.irq = IRQ_TIMR;
                 }
-                
+
                 if(io.uart.stat&2)
                 {
                     break;
                 }
             }
         }
-        
+
         gets(buffer,sizeof(buffer));
-        
+
         char *argv[8];
         int   argc;
 
@@ -110,17 +110,17 @@ int main(void)
           if(!strcmp(argv[0],"reboot"))
           {
               int i;
-              
+
               printf("core0: reboot in 3 seconds");
-              
-              for(i=0;i!=3;i++) 
+
+              for(i=0;i!=3;i++)
               {
                   usleep(1000000);
                   putchar('.');
               }
-              
+
               printf("done.\n");
-                     
+
               return 0;
           }
           else
@@ -129,11 +129,11 @@ int main(void)
               char *p=(char *)(kmem+(argv[1]?xtoi(argv[1]):0));
 
               int i,j;
-              
+
               for(i=0;i!=16;i++)
               {
                   printf("%x: ",(unsigned) p);
-              
+
                   for(j=0;j!=16;j++) printf("%x ",p[j]);
                   for(j=0;j!=16;j++) putchar((p[j]>=32&&p[j]<127)?p[j]:'.');
 
@@ -147,15 +147,15 @@ int main(void)
               int kp = 2,
                   i = 1,j,k,w,
                   vp = 1;
-              
+
               if(argv[0][kp]=='m')
               {
                   i=xtoi(argv[vp++]);
                   kp++;
               }
-          
+
               printf("%x: ",k=xtoi(argv[vp++]));
-              
+
               for(j=0;i--;j++)
               {
                   if(argv[0][0]=='r')
@@ -178,14 +178,14 @@ int main(void)
           if(!strcmp(argv[0],"led"))
           {
               if(argv[1]) io.led = xtoi(argv[1]);
-              
+
               printf("led = %x\n",io.led);
           }
           else
           if(!strcmp(argv[0],"timer"))
           {
               if(argv[1]) io.timer = atoi(argv[1]);
-              
+
               printf("timer = %d\n",io.timer);
           }
           else
@@ -200,7 +200,7 @@ int main(void)
           {
               int x = atoi(argv[1]);
               int y = atoi(argv[2]);
-              
+
               printf("mul = %d\n",x*y);
           }
           else
@@ -236,7 +236,7 @@ int main(void)
                      "                rd[m][bwl] [hex] [[hex] when m]\n",
                      argv[0]);
           }
-          
+
           if(heapcheck!=0xdeadbeef)
           {
               printf("out of memory detected, a reboot is recommended...\n");

@@ -9,7 +9,7 @@
 
 	- Von Neumann: unified instruction and data in a single memory
 	  (MEM), has the advantage that the .text and .data are contigous
-	  and without gaps, which means that the memory is better utilized. 
+	  and without gaps, which means that the memory is better utilized.
 	  However, as long there is no physical separation, a bug in the
 	  code can destroy both data and code.  Also, as long both ports of
 	  the dual-port MEM is already in use, there is no way to share to
@@ -43,7 +43,7 @@ SECTIONS
         *(.rodata*)
         *(.data)
         _global = . + 0x800;
-        *(.sbss)    
+        *(.sbss)
         *(.bss)
 	_heap = .;
 

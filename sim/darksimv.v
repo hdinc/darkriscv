@@ -6,7 +6,7 @@
 module darksimv;
 
     reg CLK = 0;
-    
+
     reg RES = 1;
 
     initial while(1) #(500e6/`BOARD_CK) CLK = !CLK; // clock generator w/ freq defined by config.vh

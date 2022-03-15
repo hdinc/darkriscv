@@ -11,5 +11,5 @@ TODO:
 
 - add a cache controller
 - add a SDRAM controller
-- add a SPI controller 
+- add a SPI controller
 - add a GbE controller

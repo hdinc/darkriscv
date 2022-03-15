@@ -15,7 +15,7 @@
 	boot:
 	- read and increent thread counter
 	- case not zero, jump to multi thread boot
-	- otherwise continue	
+	- otherwise continue
 */
 
 _boot:

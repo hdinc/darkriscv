@@ -1,12 +1,12 @@
 # The general concept is based in the article:
-# 
+#
 # 	https://www.fpgarelated.com/showarticle/786.php
 #
 # However, since the ISE GUI itself creates a "darksocv.cmd_log" file with
 # all commands executed and the respective options, it is possible change
 # some options in the ISE and check the file in order to understand how
 # enable/disable the different options.
-# 
+#
 
 # board Piswords RS485 LX9
 BOARD  = piswords_rs485_lx9

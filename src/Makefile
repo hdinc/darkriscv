@@ -9,7 +9,7 @@ ifndef CROSS
 
     ARCH = rv32e
     #ARCH = rv32i
-    
+
     #TODO: better way to switch little/big-endian:
     #ENDIAN = _le # gcc for little-endian
     #ENDIAN = _be # gcc for big-endian
@@ -18,7 +18,7 @@ ifndef CROSS
     #CROSS = riscv-elf
     #CROSS = riscv32-unknown-elf
     #CROSS = riscv32-embedded-elf
-    
+
     CCPATH = /usr/local/share/gcc-$(CROSS)/bin/
     #CCPATH = /usr/local/share/toolchain-$(CROSS)/bin
     #HARVARD = 1
@@ -38,7 +38,7 @@ endif
 CCFLAGS = -Wall -fcommon -ffreestanding -I./include -O2 -march=$(ARCH) -mabi=ilp32e -D__RISCV__ -DBUILD="\"$(BUILD)\"" -DARCH="\"$(ARCH)\""
 ASFLAGS = -march=$(ARCH)
 LDFLAGS = -T$(PROJ).ld -Map=$(PROJ).map -m elf32lriscv # -Ttext=0
-CPFLAGS = -P 
+CPFLAGS = -P
 
 CCFLAGS += -mcmodel=medany -mexplicit-relocs # relocable clode
 
@@ -80,13 +80,13 @@ clean:
 
 $(PROJ).ld: $(PROJ).ld.src
 	$(CPP) $(CPFLAGS) $(PROJ).ld.src $(PROJ).ld
-	
+
 $(PROJ).o: $(OBJS) $(PROJ).ld
 	$(LD) $(LDFLAGS) $(OBJS) -o $@
 	$(OD) $(ODFLAGS) $@ > $(PROJ).lst
 
 $(PROJ).rom.mem: $(PROJ).o
-	$(OC) $(OCFLAGS) $< $(PROJ).text --only-section .text* 
+	$(OC) $(OCFLAGS) $< $(PROJ).text --only-section .text*
 	hexdump -ve '1/4 "%08x\n"' $(PROJ).text > $@
 	#xxd -p -c 4 -g 4 $< > $@
 	rm $(PROJ).text
@@ -108,7 +108,7 @@ $(PROJ).mem: $(PROJ).o
 	rm $(PROJ).bin
 	wc -l $@
 	@echo mem ok.
-	
+
 $(PROJ).x86: $(SRCS)
 	$(HOST_CC) $(HOST_CFLAGS) $(SRCS) -o $(PROJ).x86 -DBUILD="\"$(BUILD)\"" -DARCH="\"x86\""
 	@echo x86 ok.
